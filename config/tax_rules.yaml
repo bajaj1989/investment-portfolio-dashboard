@@ -1,0 +1,43 @@
+# Indian tax rules used for estimates. Update after each Union Budget.
+# Rates apply by SALE date (effective_from). Rates exclude surcharge; cess is added on top.
+# These are estimates for planning - confirm with your CA before filing.
+
+cess: 0.04
+
+# Listed shares and equity-oriented mutual funds (>=65% equity).
+equity:
+  long_term_after_months: 12
+  periods:
+    - effective_from: 2018-04-01
+      stcg_rate: 0.15
+      ltcg_rate: 0.10
+      ltcg_exemption: 100000
+    - effective_from: 2024-07-23
+      stcg_rate: 0.20
+      ltcg_rate: 0.125
+      ltcg_exemption: 125000
+
+# Debt, hybrid (<65% equity), gold and other non-equity mutual funds.
+non_equity:
+  # Units bought on/after this date are always taxed at slab rate (Finance Act 2023).
+  slab_only_if_bought_on_or_after: 2023-04-01
+  long_term_after_months: 24
+  ltcg_rate: 0.125
+
+# Crypto / Virtual Digital Assets (Sec 115BBH): flat rate, losses cannot be set off.
+# Applies to Indian residents. Gains are converted to INR at the buy/sell date rates.
+crypto:
+  rate: 0.30
+  tds_rate: 0.01
+
+# Non-resident Indians (set per family member in Settings).
+nri:
+  # Crypto held on a foreign platform (e.g. Crypto.com) is foreign income, not taxed in India.
+  crypto_taxable_in_india: false
+  # NRE FD interest is tax-free in India; NRO FD interest is taxable.
+  nre_fd_interest_taxable: false
+
+# FD interest: taxed at slab rate. TDS threshold per bank per year (non-senior).
+fd:
+  tds_threshold: 50000
+  tds_threshold_senior: 100000
