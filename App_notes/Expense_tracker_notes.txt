@@ -1,0 +1,3 @@
+- I want to create a dashboard for income/expense/savings tracking. I am an NRI and tax resident of Singapore. I am a salaried employee. My only source of income is salary. I am the only earning member of my family.
+- I want to track the same for accounts owned by my self and spouse. I have a DBS account and wife has a DBS and UOP account. we have expenses from paynow, paylah, debit card (2 DBS and 1 UOB), credit card (POSB Everyday, HSBC).
+- I have few Indian accounts and credit cards as well which I want to track in this application. 

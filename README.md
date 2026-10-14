@@ -1,7 +1,7 @@
 # Family Portfolio Dashboard
 
 Tracks stocks (Zerodha), mutual funds (CAMS/KFintech), crypto (Crypto.com App) and bank FDs for the whole family.
-It runs only on this PC. Design: [docs/DESIGN.md](docs/DESIGN.md).
+It runs only on this PC. Design: [docs/DESIGN.md](docs/DESIGN.md). Step-by-step operations, including every data feed: [docs/RUNBOOK.md](docs/RUNBOOK.md).
 
 ## Start the dashboard
 
