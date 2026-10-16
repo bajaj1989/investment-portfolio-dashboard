@@ -18,6 +18,10 @@ INTERNAL_KINDS = {
     "crypto_earn_program_withdrawn", "supercharger_deposit", "supercharger_withdrawal",
 }
 TRANSFER_OUT_KINDS = {"crypto_withdrawal", "crypto_to_exchange_transfer", "crypto_transfer"}
+# Limit orders log a lock row when placed and an unlock row when cancelled, e.g.
+# "trading.limit_order.crypto_wallet.fund_lock" / "trading.limit_order.cash_account.sell_unlock".
+# Both rows show the target "To Amount" even though nothing was exchanged.
+LIMIT_ORDER_HOLD_SUFFIXES = ("_lock", "_unlock")
 REWARD_HINTS = ("reward", "cashback", "interest", "referral", "bonus", "airdrop", "rebate", "reimbursement")
 
 
@@ -56,6 +60,9 @@ def parse(data: bytes, file_name: str, member_id: int) -> ParsedImport:
         kind = str(row.get("Transaction Kind", "")).strip()
         if kind in INTERNAL_KINDS:
             skipped_kinds.add(kind)
+            continue
+        if kind.startswith("trading.limit_order.") and kind.endswith(LIMIT_ORDER_HOLD_SUFFIXES):
+            skipped_kinds.add("limit order holds (placed/cancelled orders)")
             continue
         d = row["_ts"].date()
         if has_usd_col:

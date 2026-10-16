@@ -87,6 +87,22 @@ def test_cryptocom_import_in_usd(fresh_db):
     assert crypto_inr == pytest.approx(h["value_inr"].sum())
 
 
+LIMIT_ORDERS = b"""Timestamp (UTC),Transaction Description,Currency,Amount,To Currency,To Amount,Native Currency,Native Amount,Native Amount (in USD),Transaction Kind,Transaction Hash
+2024-03-13 11:26:50,Sold SOL,SOL,-10.0,SGD,1995.40,USD,1484.25,1484.25,crypto_viban_exchange,
+2024-03-13 11:26:19,SOL > USDT,SOL,10.0,USDT,1540.0,USD,1516.24,1516.24,trading.limit_order.crypto_wallet.fund_unlock,
+2024-03-13 10:32:56,SOL > USDT,SOL,-10.0,USDT,1540.0,USD,1516.21,1516.21,trading.limit_order.crypto_wallet.fund_lock,
+2024-03-13 05:50:08,Sell SOL,SOL,10.0,SGD,2050.00,USD,1525.44,1525.44,trading.limit_order.cash_account.sell_unlock,
+2024-03-13 05:48:08,Sell SOL,SOL,-10.0,SGD,2050.00,USD,1525.46,1525.46,trading.limit_order.cash_account.sell_lock,
+2024-01-05 10:00:00,Buy SOL,SOL,10.0,,,USD,1000,1000,crypto_purchase,
+"""
+
+
+def test_cryptocom_cancelled_limit_orders_ignored():
+    parsed = cryptocom_csv.parse(LIMIT_ORDERS, "c.csv", 1)
+    assert [(r.symbol, r.type, r.units) for r in parsed.records] == [("SOL", "SELL", 10.0), ("SOL", "BUY", 10.0)]
+    assert any("limit order" in w for w in parsed.warnings)
+
+
 def test_nri_crypto_and_nre_fd_not_taxed(fresh_db):
     import pandas as pd
 
